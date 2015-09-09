@@ -260,6 +260,10 @@ CSG.Vector.prototype = {
   dot: function(a) {
     return this.x * a.x + this.y * a.y;
   },
+  
+  determinant: function(a) {
+    return this.x * a.y - this.y * a.x;
+  },
 
   lerp: function(a, t) {
     return this.plus(a.minus(this).times(t));
@@ -319,7 +323,7 @@ CSG.Line.prototype = {
     var segmentType = 0;
     var types = [];
     for (var i = 0; i < segment.vertices.length; i++) {
-      var t = this.normal.dot(segment.vertices[i].minus(this.origin));
+      var t = this.direction.dot(segment.vertices[i].minus(this.origin));
       var type = (t < -CSG.Line.EPSILON) ? RIGHT : (t > CSG.Line.EPSILON) ? LEFT : COLINEAR;
       segmentType |= type;
       types.push(type);
